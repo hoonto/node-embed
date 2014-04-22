@@ -23,7 +23,8 @@ Fork and/or clone this repository and [Node.js](https://github.com/joyent/node):
 [node@hip1 dev]$ git clone https://github.com/hoonto/node-embed.git
 [node@hip1 dev]$ cd node-embed/
 [node@hip1 node-embed]$ git clone https://github.com/joyent/node.git
-[node@hip1 node-embed]$ git checkout v0.10.12-release
+[node@hip1 node-embed]$ cd node
+[node@hip1 node]$ git checkout v0.10.12-release
 ```
 
 In the local root of the cloned Node.js git repository, in common.gypi, add '-fPIC' argument in the cflags array for the architectures for which you are building.  For example, for Linux change:
