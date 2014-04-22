@@ -1,5 +1,7 @@
 node-embed
 ===
+
+
 # The Node Embedders Guide
 ### A guide for embedding Node.js within other applications.
 
@@ -21,6 +23,7 @@ Fork and/or clone this repository and [Node.js](https://github.com/joyent/node):
 [node@hip1 dev]$ git clone https://github.com/hoonto/node-embed.git
 [node@hip1 dev]$ cd node-embed/
 [node@hip1 node-embed]$ git clone https://github.com/joyent/node.git
+[node@hip1 node-embed]$ git checkout v0.10.12-release
 ```
 
 In the local root of the cloned Node.js git repository, in common.gypi, add '-fPIC' argument in the cflags array for the architectures for which you are building.  For example, for Linux change:
@@ -167,6 +170,8 @@ make
 ```
 
 And find a shared library here for Node:  ./out/Release/lib.target/libnode.so
+Make sure libnode.so is in your library path before compiling your application in which libnode should be embedded.
+
 
 #### Step 3: Invoke Node from your application
 
@@ -175,6 +180,13 @@ Modify the wrapping application to call node::buildContext and node::runContext.
 The application will be able to do things with V8 prior to invoking runContext which calls libuv's uv_run and will not return until the reference count is zero.
 
 In your cloned Node repository, you'll find the Node.js includes in ./src and the V8 includes in ./deps/v8/include (./deps/v8/include/v8.h and ./src/node.h are likely the ones you will want to include in your application's src).
+
+
+For the example, you might compile with g++:
+
+```
+g++ -I./node/src -I./node/deps/uv/include -I./node/deps/v8/include -lnode example.cc
+```
 
 
 #### TODO:
