@@ -184,7 +184,7 @@ The application will be able to do things with V8 prior to invoking runContext w
 
 In your cloned Node repository, you'll find the Node.js includes in ./src and the V8 includes in ./deps/v8/include (./deps/v8/include/v8.h and ./src/node.h are likely the ones you will want to include in your application's src).
 
-
+Again, be sure you have libnode.so in your ld path!
 For the example, you might compile with g++:
 
 ```
