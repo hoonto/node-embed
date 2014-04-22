@@ -30,15 +30,15 @@ Fork and/or clone this repository and [Node.js](https://github.com/joyent/node):
 In the local root of the cloned Node.js git repository, in common.gypi, add '-fPIC' argument in the cflags array for the architectures for which you are building.  For example, for Linux change:
 
 ```
-      [ 'OS in "linux freebsd openbsd solaris android"', {
-         'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', ],
+      [ 'OS =="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris"', {
+         'cflags': [ '-Wall', '-Wextra', '-Wno-unused-parameter', '-pthread', ],
 ```
 
 to:
 
 ```
-      [ 'OS in "linux freebsd openbsd solaris android"', {
-         'cflags': [ '-fPIC', '-Wall', '-Wextra', '-Wno-unused-parameter', ],
+      [ 'OS =="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris"', {
+         'cflags': [ '-fPIC', '-Wall', '-Wextra', '-Wno-unused-parameter', '-pthread', ],
 ```
 
 And in node.gyp modify target type from executable to shared_library:
@@ -67,7 +67,9 @@ Don't make, there's more work yet to do!
 
 Node.js expects out-of-the-box to be run as an executable with command-line arguments and such.  It has a src/node.cc file which provides a node::Start method which takes command-line arguments, builds the V8 context, and invokes libuv's uv_run among other things, all in one big inconvenient-to-you Start method.
 
-So your application will likely want to add some things to the global object template and request that Node create and pass back a reference to the V8 context first prior to uv_run invocation.  So the following code snippets show how to break out node::Start into two separate functions, such that you may do this:
+So your application will likely want to add some things to the global object template and request that Node create and pass back a reference to the V8 context first prior to uv_run invocation.  The following code snippets show how to break out node::Start into two separate functions, such that you may do this:
+
+NOTE: in the node-embed directory are copies of node.cc and node.h modified that you may copy rather than cutting pasting all of this here, so you can simply move node.cc and node.h in the node-embed directory to node/src directory
 
 In src/node.h add the following under the <code>NODE_EXTERN int Start(int argc, char *argv[]);</code> declaration:
 
