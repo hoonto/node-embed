@@ -186,7 +186,7 @@ In your cloned Node repository, you'll find the Node.js includes in ./src and th
 For the example, you might compile with g++:
 
 ```
-g++ -I./node/src -I./node/deps/uv/include -I./node/deps/v8/include -lnode example.cc
+g++ -I./node/src -I./node/deps/uv/include -I./node/deps/v8/include -lnode example.cc -o example
 ```
 
 
